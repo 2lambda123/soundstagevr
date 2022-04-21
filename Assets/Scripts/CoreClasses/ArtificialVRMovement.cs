@@ -1,8 +1,9 @@
-﻿using System.Collections;
+﻿using Mirror;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ArtificialVRMovement : MonoBehaviour
+public class ArtificialVRMovement : NetworkBehaviour
 {
     public float maxSpeed = 1.0f;
     public string horizontalAxisName = "Horizontal";
@@ -20,6 +21,9 @@ public class ArtificialVRMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // exit from update if this is not the local player
+        if (!isLocalPlayer) return;
+
         if (!offhandMovementHand)
         {
             LogError();
