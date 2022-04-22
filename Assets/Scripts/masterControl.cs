@@ -17,8 +17,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Mirror;
 
-public class masterControl : MonoBehaviour {
+public class masterControl : NetworkBehaviour {
 
   public static masterControl instance;
   public UnityEngine.Audio.AudioMixer masterMixer;
@@ -141,6 +142,7 @@ public class masterControl : MonoBehaviour {
   public void setGlowLevel(float t) {
     glowVal = t;
     PlayerPrefs.SetFloat("glowVal", glowVal);
+        if (mainGlowShader) // FIXME: this is null due to camera not being present in the scene at startup when using mirror
     mainGlowShader.bloomIntensity = Mathf.Lerp(0, .05f, t);
   }
 

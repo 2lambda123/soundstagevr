@@ -42,7 +42,7 @@ public class bufferToWav : MonoBehaviour {
 
     void WavHeader(BinaryWriter b, int length)
     {
-        int _samplerate = 44100;
+        int _samplerate = AudioSettings.outputSampleRate;  // from other port
         int _channels = 2;
         int _samplelength = 2; //2 bytes
        

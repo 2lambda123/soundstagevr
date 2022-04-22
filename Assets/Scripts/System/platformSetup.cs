@@ -11,11 +11,11 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
+using Mirror;
 using UnityEngine;
 using System.Collections;
 
-public class platformSetup : MonoBehaviour {
+public class platformSetup : NetworkBehaviour {
   public GameObject hmdPrefab, controllerPrefab;
 
   public Transform hmdTargetVive, controllerLTargetVive, controllerRTargetVive;
@@ -24,26 +24,34 @@ public class platformSetup : MonoBehaviour {
 
   manipulator[] manips = new manipulator[2];
   void Awake() {
+
+        if (!isLocalPlayer) return;
+
     masterControl MC = GetComponent<masterControl>();
 
     if (MC.currentPlatform == masterControl.platform.Vive) {
 
-      Instantiate(hmdPrefab, hmdTargetVive, false);
+            NetworkServer.Spawn(Instantiate(hmdPrefab, hmdTargetVive, false));
       manips[0] = (Instantiate(controllerPrefab, controllerLTargetVive, false) as GameObject).GetComponentInChildren<manipulator>();
+            NetworkServer.Spawn(manips[0].gameObject);
       manips[1] = (Instantiate(controllerPrefab, controllerRTargetVive, false) as GameObject).GetComponentInChildren<manipulator>();
+            NetworkServer.Spawn(manips[1].gameObject);
 
-      manips[0].transform.parent.localPosition = Vector3.zero;
+            manips[0].transform.parent.localPosition = Vector3.zero;
       manips[1].transform.parent.localPosition = Vector3.zero;
 
       if (UnityEngine.XR.XRSettings.loadedDeviceName == "Oculus") oculusSwitch();
 
       manips[0].SetDeviceIndex(0);
       manips[1].SetDeviceIndex(1);
-    }
+
+            manips[0].toggleTips(false); // FIXME this was in Start() but these are not present on the server
+        }
   }
 
     void Update()
     {
+        if (!isLocalPlayer) return;
         OVRPlugin.Controller control = OVRPlugin.GetActiveController(); //get current controller scheme
         if ((OVRPlugin.Controller.Hands == control) || (OVRPlugin.Controller.LHand == control) || (OVRPlugin.Controller.RHand == control))
         { //if current controller is hands disable the controllers
@@ -64,7 +72,6 @@ public class platformSetup : MonoBehaviour {
   }
 
   void Start() {
-    manips[0].toggleTips(false);
-    }
+        }
 
 }

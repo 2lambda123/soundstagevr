@@ -105,6 +105,7 @@ namespace OculusSampleFramework
 
 		private void Update()
 		{
+			/* FIXME disable hand tracking for now as it is not available on the desktop
 			if (!HandsManager.Instance.IsInitialized())
 			{
 				return;
@@ -116,6 +117,7 @@ namespace OculusSampleFramework
 				HandsManager.Instance.RightHand.HandConfidence == OVRHand.TrackingConfidence.High;
 			bool leftHandProperlyTracked = HandsManager.Instance.LeftHand.IsPointerPoseValid;
 			bool rightHandProperlyTracked = HandsManager.Instance.RightHand.IsPointerPoseValid;
+			
 
 			bool encounteredNearObjectsLeftHand = UpdateToolsAndEnableState(_leftHandNearTools, leftHandIsReliable);
 			// don't interact with far field if near field is touching something
@@ -126,6 +128,7 @@ namespace OculusSampleFramework
 			// don't interact with far field if near field is touching something
 			UpdateToolsAndEnableState(_rightHandFarTools, !encounteredNearObjectsRightHand && rightHandIsReliable &&
 			  rightHandProperlyTracked);
+			*/
 		}
 
 		private bool UpdateToolsAndEnableState(HashSet<InteractableTool> tools, bool toolsAreEnabledThisFrame)

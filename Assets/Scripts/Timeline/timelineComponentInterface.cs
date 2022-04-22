@@ -73,7 +73,10 @@ public class timelineComponentInterface : componentInterface {
 
     _timelineDeviceInterface = GetComponent<timelineDeviceInterface>();
     Init();
-  }
+
+        // FIXMEL originally this was in Start(), these need to get initialized earlier
+        _gridParams = new gridParams(startTracks, startunitres, startwidth, startheight, startrange, startio);
+    }
 
   public void setStartHeight(float h) {
     startheight = h;
@@ -92,13 +95,13 @@ public class timelineComponentInterface : componentInterface {
     startio = _io;
   }
 
-  void Start() {
-    snapSwitch.setSwitch(snapping);
-    notelockSwitch.setSwitch(notelock);
-    Setup(startTracks, startunitres, startwidth, startheight, startrange, startio);
-  }
+    void Start() {
+        snapSwitch.setSwitch(snapping);
+        notelockSwitch.setSwitch(notelock);
+        Setup(startTracks, startunitres, startwidth, startheight, startrange, startio);
+    }
 
-  public void Init() {
+    public void Init() {
     _timelineGridRender = GetComponentInChildren<timelineGridRender>();
     _timelinePlayer = GetComponent<timelinePlayer>();
     _timelineGridUI = GetComponentInChildren<timelineGridUI>();

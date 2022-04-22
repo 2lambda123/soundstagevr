@@ -87,6 +87,7 @@ public class exampleManager : MonoBehaviour {
   }
 
   void InitSides() {
+        if (Camera.main) // FIXME: camera is not available initially when using mirror, affects assignment below
     height = Mathf.Clamp(Camera.main.transform.position.y, 1, 2);
     float mag = .5f;
     bounds = new Vector3[4];
@@ -279,6 +280,7 @@ public class exampleManager : MonoBehaviour {
   }
 
   void Update() {
+        if (Camera.main) // FIXME: camera is not available initially when using mirror, affects assignment below
     height = Mathf.Lerp(height, Mathf.Clamp(Camera.main.transform.position.y, 1, 2), .03f);
   }
 }
